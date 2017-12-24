@@ -18,7 +18,11 @@ end
 # a clean-room context that can report the max register value after every line
 class Context
   def initialize
-    @room = binding
+    @room = Class.new(BasicObject) do
+      def binding
+        Kernel.binding
+      end
+    end.new.binding
   end
 
   # we could use a proper parser, but if we squint the source is almost-Ruby… 😈
